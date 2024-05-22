@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Tells you how long a period lasts and when/what the next one will be.">
+    <meta name="author" content="Elijah McCalley">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#E3E3E3">
+
+    <link rel="stylesheet" href="index.css"/>
+    <link rel="manifest" href="manifest.json"/>
+    <link rel="icon" href="res/icons/hd_hi.ico">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+    </style>
+
+    <title>School Time</title>
+</head>
+<body>
+
+<div id="top-content">
+    <label for="day-finished-progress" id="day-finished-progress-label">Day Progress: </label>
+    <progress id="day-finished-progress" value="50" max="100">50%</progress>
+</div>
+
+<div id="center-content">
+    <p id="current-period">School</p>
+    <p id="next-period-time">Time</p>
+    <p id="day-end-time">:)</p>
+</div>
+
+<noscript>School Time requires JavaScript to run.</noscript>
+
+<script type="module" src="index.js"></script>
+
+</body>
+</html>

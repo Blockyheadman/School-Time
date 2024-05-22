@@ -1,0 +1,44 @@
+{
+  "name": "School Time",
+  "short_name": "School Time",
+  "description": "Tells you how long a period lasts and when/what the next one will be.",
+  "icons": [
+    {
+      "src": "res/icons/hd_hi.svg",
+      "sizes": "any"
+    },
+    {
+      "src": "res/icons/hd_hi.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "res/icons/hd_512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "res/icons/hd_hi.ico",
+      "sizes": "256x256 128x128 64x64 48x48 32x32 16x16"
+    },
+    {
+      "src": "res/icons/maskable_icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "res/images/test1.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "test image for reason purposes."
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#232323",
+  "theme_color": "#E3E3E3"
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "time": "00:00",
+    "name": "Before School",
+    "short": "Before School"
+  },
+  {
+    "time": "07:50",
+    "name": "Zero Hour",
+    "short": "Zero Hour"
+  },
+  {
+    "time": "08:25",
+    "name": "1st Period",
+    "short": "1st"
+  },
+  {
+    "time": "09:18",
+    "name": "2nd Period",
+    "short": "2nd"
+  },
+  {
+    "time": "10:15",
+    "name": "3rd Period",
+    "short": "3rd"
+  },
+  {
+    "time": "11:09",
+    "name": "First Lunch",
+    "short": "1st Lunch"
+  },
+  {
+    "time": "11:15",
+    "name": "First Lunch / 4A",
+    "short": "1st Lunch / 4A"
+  },
+  {
+    "time": "11:47",
+    "name": "4A / 4B Period",
+    "short": "4A / 4B"
+  },
+  {
+    "time": "12:02",
+    "name": "4B Period / Second Lunch",
+    "short": "4B / 2nd Lunch"
+  },
+  {
+    "time": "12:37",
+    "name": "5th Period",
+    "short": "5th"
+  },
+  {
+    "time": "13:33",
+    "name": "6th Period",
+    "short": "6th"
+  },
+  {
+    "time": "14:29",
+    "name": "7th Period",
+    "short": "7th"
+  },
+  {
+    "time": "15:20",
+    "name": "End of School Day",
+    "short": "School Dismissed"
+  },
+  {
+    "time": "23:59",
+    "name": "End of Day",
+    "short": "End of Day"
+  }
+]
