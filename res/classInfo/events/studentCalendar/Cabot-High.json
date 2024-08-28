@@ -1,0 +1,169 @@
+[
+  {
+    "name": "Labor Day",
+    "date": "09-02-2024",
+    "special": {
+      "noSchool": ""
+    }
+  },
+  {
+    "name": "Jostens Senior Cap/Gown Orders",
+    "date": "09-04-2024",
+    "special": {
+      "location": "Main Hallway under stairwell"
+    }
+  },
+  {
+    "name": "ACT Testing",
+    "date": "09-14-2024"
+  },
+  {
+    "name": "Teacher Work Day",
+    "date": "10-14-2024",
+    "special": {
+      "noSchool": ""
+    }
+  },
+  {
+    "name": "1st Quarter Ends",
+    "date": "10-17-2024"
+  },
+  {
+    "name": "P/T Conference",
+    "date": "10-22-2024",
+    "special": {
+      "earlyDismissal": "13:00"
+    }
+  },
+  {
+    "name": "P/T Conference",
+    "date": "10-24-2024",
+    "special": {
+      "earlyDismissal": "13:00"
+    }
+  },
+  {
+    "name": "No School",
+    "date": "10-25-2024",
+    "special": {
+      "noSchool": ""
+    }
+  },
+  {
+    "name": "ACT Testing",
+    "date": "10-26-2024"
+  },
+  {
+    "name": "Thanksgiving Break",
+    "date": "11-25-2024",
+    "special": {
+      "endDate": "11-29-2024"
+    }
+  },
+  {
+    "name": "ACT Testing",
+    "date": "12-14-2024"
+  },
+  {
+    "name": "1st Semester Ends",
+    "date": "12-20-2024"
+  },
+  {
+    "name": "Winter Break",
+    "date": "12-23-2024",
+    "special": {
+      "endDate": "01-06-2025"
+    }
+  },
+  {
+    "name": "MLK Day",
+    "date": "01-20-2025",
+    "special": {
+      "noSchool": ""
+    }
+  },
+  {
+    "name": "ACT Testing",
+    "date": "02-08-2025"
+  },
+  {
+    "name": "Presidents Day",
+    "date": "02-17-2025",
+    "special": {
+      "noSchool": ""
+    }
+  },
+  {
+    "name": "Junior ACT Testing",
+    "date": "02-26-2025"
+  },
+  {
+    "name": "Teacher Work Day",
+    "date": "03-10-2025",
+    "special": {
+      "noSchool": ""
+    }
+  },
+  {
+    "name": "3rd Semester Ends",
+    "date": "03-14-2025"
+  },
+  {
+    "name": "P/T Conference",
+    "date": "03-18-2025",
+    "special": {
+      "earlyDismissal": "13:00"
+    }
+  },
+  {
+    "name": "P/T Conference",
+    "date": "03-20-2025",
+    "special": {
+      "earlyDismissal": "13:00"
+    }
+  },
+  {
+    "name": "Spring Break",
+    "date": "03-21-2025",
+    "special": {
+      "endDate": "03-30-2025"
+    }
+  },
+  {
+    "name": "ACT Testing",
+    "date": "04-05-2025"
+  },
+  {
+    "name": "No School",
+    "date": "04-18-2025",
+    "special": {
+      "noSchool": ""
+    }
+  },
+  {
+    "name": "Graduation Day",
+    "date": "05-17-2025",
+    "special": {
+      "location": "Panther Arena"
+    }
+  },
+  {
+    "name": "Memorial Day",
+    "date": "05-26-2025",
+    "special": {
+      "noSchool": ""
+    }
+  },
+  {
+    "name": "Last Day of School",
+    "date": "05-30-2025"
+  },
+  {
+    "name": "ACT Testing",
+    "date": "06-14-2025"
+  },
+  {
+    "name": "ACT Testing",
+    "date": "07-12-2025"
+  }
+]

@@ -5,19 +5,19 @@
     "short": "Before School"
   },
   {
-    "time": "07:50",
-    "name": "Zero Hour",
-    "short": "Zero Hour"
-  },
-  {
-    "time": "08:25",
+    "time": "07:55",
     "name": "1st Period",
     "short": "1st"
   },
   {
-    "time": "09:18",
+    "time": "08:44",
     "name": "2nd Period",
     "short": "2nd"
+  },
+  {
+    "time": "09:40",
+    "name": "2B1 Period",
+    "short": "2B1"
   },
   {
     "time": "10:15",
@@ -30,37 +30,37 @@
     "short": "1st Lunch"
   },
   {
-    "time": "11:15",
+    "time": "11:14",
     "name": "First Lunch / 4A",
     "short": "1st Lunch / 4A"
   },
   {
-    "time": "11:47",
+    "time": "11:44",
     "name": "4A / 4B Period",
     "short": "4A / 4B"
   },
   {
-    "time": "12:02",
+    "time": "12:03",
     "name": "4B Period / Second Lunch",
     "short": "4B / 2nd Lunch"
   },
   {
-    "time": "12:37",
+    "time": "12:33",
     "name": "5th Period",
     "short": "5th"
   },
   {
-    "time": "13:33",
+    "time": "13:27",
     "name": "6th Period",
     "short": "6th"
   },
   {
-    "time": "14:29",
+    "time": "14:21",
     "name": "7th Period",
     "short": "7th"
   },
   {
-    "time": "15:20",
+    "time": "15:15",
     "name": "End of School Day",
     "short": "School Dismissed"
   },

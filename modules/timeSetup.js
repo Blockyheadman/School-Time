@@ -1,194 +1,179 @@
-import {clockTimeToTimestamp} from "./timeConverstion.js";
+/*
+ * Copyright (c) 2024. Elijah McCalley
+ * All rights reserved.
+ */
 
-export {setTimes, setPeriodTimes};
+import {clockTimeToTimestamp} from "./timeConversion.min.js";
+
+export {setupTimes, getPeriodTimes, getCurrentPeriodIndex};
+
+let currentPeriodIndex;
+
+function getCurrentPeriodIndex() {
+    return currentPeriodIndex;
+}
 
 /**
  * Sets time visuals on the main page.
  *
- * @param periods {Array}
+ * @param periods {Array.<{time: string, name:string, short:string}>} - An array of periods.
  */
-function setTimes(periods) {
-    let currentDate = new Date().getTime();
-
-    if (currentDate > clockTimeToTimestamp("00:00")) {
-        setPeriodTimes("Cabot-High");
+function setupTimes(periods) {
+    if (!periods) {
+        throw new ReferenceError("Missing parameter \"periods\"");
     }
 
+    const CURRENT_DATE = new Date().getTime();
+    const DAY_END_TIME = document.getElementById("day-end-time");
+    const PROGRESS_BAR = document.getElementById("day-finished-progress");
+    const PROGRESS_BAR_LABEL = document.getElementById("day-finished-progress-label");
+
     for (let i = 0; i < periods.length; i++) {
-        // Check for correct period to use
-        if (currentDate < periods[i].time)
+        // console.debug(`current iteration: ${i}`);
+        // console.debug(periods[i]);
+
+        // If
+        if (CURRENT_DATE < periods[i].time)
             break;
 
-        if (i < periods.length - 1 && currentDate > periods[i + 1].time)
+        const NEXT_PERIOD = i < periods.length - 1 ? periods[i + 1] : periods[0];
+        // console.debug(nextPeriod);
+
+        if (i < periods.length - 1 && CURRENT_DATE > NEXT_PERIOD.time)
             continue;
 
-        // Change period name if it is different
-        if (periods[i].name !== document.getElementById("current-period").innerHTML)
-            document.getElementById("current-period").innerHTML = periods[i].name;
+        currentPeriodIndex = i;
 
-        // Choose the correct period time
-        let periodDate;
-        if (i < periods.length - 1) {
-            periodDate = periods[i + 1].time;
-        } else {
-            periodDate = periods[0].time;
-        }
+        // Change displayed period name
+        document.getElementById("current-period").innerText = periods[i].name;
 
         // Calculate different times
-        let hoursLeft = Math.floor((periodDate - currentDate) / 1000 / 60 / 60);
-        let minutesLeft = Math.floor((periodDate - currentDate) / 1000 / 60);
-        let secondsLeft = Math.abs((minutesLeft * 60) - Math.floor((periodDate - currentDate) / 1000));
+        let hoursLeft = Math.floor((NEXT_PERIOD.time - CURRENT_DATE) / 1000 / 60 / 60);
+        let minutesLeft = Math.floor((NEXT_PERIOD.time - CURRENT_DATE) / 1000 / 60);
+        let secondsLeft = Math.abs((minutesLeft * 60) - Math.floor((NEXT_PERIOD.time - CURRENT_DATE) / 1000));
 
         // console.debug(`Current date:        ${currentDate}`);
-        // console.debug(`Period date:         ${periodDate}`);
-        // console.debug(`Subtracted time:     ${periodDate - currentDate}`);
+        // console.debug(`Period date:         ${nextPeriod.time}`);
+        // console.debug(`Subtracted time:     ${nextPeriod.time - currentDate}`);
         // console.debug(`Hours left:          ${hoursLeft}`);
         // console.debug(`Minutes left:        ${minutesLeft}`);
         // console.debug(`Minutes left (hour): ${minutesLeft - hoursLeft * 60}`);
         // console.debug(`Seconds left:        ${secondsLeft}`);
 
         // Create the string for the 'time left until' element
-        let timeLeftString = createTimeLeftString(hoursLeft, minutesLeft, secondsLeft, periods, i);
-
-        if (document.getElementById("next-period-time").innerHTML !== timeLeftString)
-            document.getElementById("next-period-time").innerHTML = timeLeftString;
-
-        const dayEndTime = document.getElementById("day-end-time");
+        let timeLeftString = createTimeLeftString(hoursLeft, minutesLeft, secondsLeft, NEXT_PERIOD);
+        document.getElementById("next-period-time").innerText = timeLeftString;
 
         // Set 'day left time' element text
-        if (currentDate < periods[periods.length - 2].time) {
-            hoursLeft = Math.floor((periods[periods.length - 2].time - currentDate) / 1000 / 60 / 60);
-            minutesLeft = Math.floor((periods[periods.length - 2].time - currentDate) / 1000 / 60);
-            secondsLeft = Math.abs((minutesLeft * 60) - Math.floor((periods[periods.length - 2].time - currentDate) / 1000));
+        if (CURRENT_DATE < periods[periods.length - 2].time) {
+            hoursLeft = Math.floor((periods[periods.length - 2].time - CURRENT_DATE) / 1000 / 60 / 60);
+            minutesLeft = Math.floor((periods[periods.length - 2].time - CURRENT_DATE) / 1000 / 60);
+            secondsLeft = Math.abs((minutesLeft * 60) - Math.floor((periods[periods.length - 2].time - CURRENT_DATE) / 1000));
 
-            timeLeftString = createTimeLeftString(hoursLeft, minutesLeft, secondsLeft, periods, i);
+            timeLeftString = createTimeLeftString(hoursLeft, minutesLeft, secondsLeft, periods[periods.length - 2]);
 
-            if (dayEndTime.innerHTML !== timeLeftString)
-                dayEndTime.innerHTML = timeLeftString;
+            DAY_END_TIME.innerText = timeLeftString;
         } else {
-            if (dayEndTime.innerHTML !== "It's the end of the school day! 🥳")
-                dayEndTime.innerHTML = "It's the end of the school day! 🥳";
+            DAY_END_TIME.innerText = "It's the end of the school day! 🥳";
         }
 
         // Setup progress bar percent
-        const progressbar = document.getElementById("day-finished-progress");
-        const progressbarLabel = document.getElementById("day-finished-progress-label");
-        const percent = ((currentDate - periods[1].time) / (periods[periods.length - 2].time - periods[1].time)) * 100;
+        const FINISHED_PERCENT = ((CURRENT_DATE - periods[1].time) / (periods[periods.length - 2].time - periods[1].time)) * 100;
 
-        progressbar.value = percent.toFixed(2);
-        progressbarLabel.innerHTML = (percent < 0 ? "Day Progress: 0%" : percent < 100 ? `Day Progress: ${percent.toFixed(2)}%` : "Day Progress: 100%");
+        PROGRESS_BAR.value = FINISHED_PERCENT.toFixed(2);
+        PROGRESS_BAR.innerText = `${FINISHED_PERCENT.toFixed(2)}%`;
+        PROGRESS_BAR_LABEL.innerText = (
+            FINISHED_PERCENT < 0 ? "Day Progress: 0%" : FINISHED_PERCENT < 100 ? `Day Progress: ${FINISHED_PERCENT.toFixed(2)}%` : "Day Progress: 100%"
+        );
+
+        // Eventually, make this customizable for users or optional.
+        if (document.hidden) {
+            let timeString = `${periods[i].short} - `;
+            timeString += (hoursLeft > 0 ? (hoursLeft < 10 ? '0' : '') + hoursLeft + ":" : "");
+            timeString += (minutesLeft > 0 ? (minutesLeft - hoursLeft * 60 < 10 ? '0' : '') + minutesLeft - hoursLeft * 60 + ":" : "");
+            timeString += (secondsLeft > 0 ? (secondsLeft < 10 ? '0' : '') + secondsLeft : "");
+            document.title = timeString;
+        } else {
+            document.title = "Schooling Hours";
+        }
     }
 }
 
 /**
  * Creates a string for how much time is left for something in hours, minutes, and seconds.
  *
- * @param hoursLeft {number}
- * @param minutesLeft {number}
- * @param secondsLeft {number}
- * @param periods {Array}
- * @param periodsIndex {number}
- * @returns {string}
+ * @param hoursLeft {number} - How many hours left until next period.
+ * @param minutesLeft {number} - How many minutes left until next period.
+ * @param secondsLeft {number} - How many seconds left until next period.
+ * @param nextPeriodInfo - The info about the next period.
+ * @returns {string} - A formatted 'time left' string. (7 hours and 13 minutes and 13 seconds left until End of Day)
  */
-function createTimeLeftString(hoursLeft, minutesLeft, secondsLeft, periods, periodsIndex) {
+function createTimeLeftString(hoursLeft, minutesLeft, secondsLeft, nextPeriodInfo) {
     let timeLeftString = (hoursLeft > 0 ? hoursLeft + " hour" + (hoursLeft !== 1 ? "s" : "") + " and " : "");
-    timeLeftString += (minutesLeft > 0 ? Math.round(minutesLeft - hoursLeft * 60) + " minute" + (minutesLeft !== 1 ? "s" : "") + " and " : "");
+    timeLeftString += (minutesLeft > 0 ? minutesLeft - hoursLeft * 60 + " minute" + (minutesLeft !== 1 ? "s" : "") + " and " : "");
     timeLeftString += secondsLeft + " second" + (secondsLeft !== 1 ? "s" : "");
-    timeLeftString += " left until " + (periodsIndex < periods.length - 1 ? periods[periodsIndex + 1].name : periods[0].name);
+    timeLeftString += " left until " + nextPeriodInfo.name;
 
     return timeLeftString;
 }
 
-// TODO Make this use json files or user input for periods instead of presets.
 /**
+ * Gives the period info based on the set given.
  *
- * (NOT FINISHED) Sets the timestamps for all the periods.
- *
- * @param periodSet {string} - Name of the JSON file or saved period set
- * @param customSet {boolean} - If the set given is a custom set
- * @returns {[{name: string, short: string, time: (RangeError|RangeErrorConstructor|*)},{name: string, short: string, time: (RangeError|RangeErrorConstructor|*)},{name: string, short: string, time: (RangeError|RangeErrorConstructor|*)},{name: string, short: string, time: (RangeError|RangeErrorConstructor|*)},{name: string, short: string, time: (RangeError|RangeErrorConstructor|*)},null,null,null,null,null,null,null,null,null]}
+ * @param periodSetName {string} - Name of the JSON file.
+ * @returns {Promise.<Array.<{time: number, name:string, short:string}>>} - An array of periods from the given school
  */
-function setPeriodTimes(periodSet, customSet = false) {
-    // let data;
-
-    if (!customSet) {
-        fetch("res/classInfo/periods/" + periodSet + ".json")
-            .then(response => response.json())
-        // .then(json => console.log(json));
-    } else {
-        // use custom info.
+async function getPeriodTimes(periodSetName) {
+    if (!periodSetName) {
+        throw new ReferenceError("Missing parameter \"periodSetName\"");
     }
 
-    return [
-        {
-            time: clockTimeToTimestamp("00:00"),
-            name: "Before School",
-            short: "Before School"
-        },
-        {
-            time: clockTimeToTimestamp("07:50"),
-            name: "Zero Hour",
-            short: "Zero Hour"
-        },
-        {
-            time: clockTimeToTimestamp("08:25"),
-            name: "1st Period",
-            short: "1st"
-        },
-        {
-            time: clockTimeToTimestamp("09:18"),
-            name: "2nd Period",
-            short: "2nd"
-        },
-        {
-            time: clockTimeToTimestamp("10:15"),
-            name: "3rd Period",
-            short: "3rd"
-        },
-        {
-            time: clockTimeToTimestamp("11:09"),
-            name: "First Lunch",
-            short: "1st Lunch"
-        },
-        {
-            time: clockTimeToTimestamp("11:15"),
-            name: "First Lunch / 4A",
-            short: "1st Lunch / 4A"
-        },
-        {
-            time: clockTimeToTimestamp("11:47"),
-            name: "4A / 4B Period",
-            short: "4A / 4B"
-        },
-        {
-            time: clockTimeToTimestamp("12:02"),
-            name: "4B Period / Second Lunch",
-            short: "4B / 2nd Lunch"
-        },
-        {
-            time: clockTimeToTimestamp("12:37"),
-            name: "5th Period",
-            short: "5th"
-        },
-        {
-            time: clockTimeToTimestamp("13:33"),
-            name: "6th Period",
-            short: "6th"
-        },
-        {
-            time: clockTimeToTimestamp("14:29"),
-            name: "7th Period",
-            short: "7th"
-        },
-        {
-            time: clockTimeToTimestamp("15:20"),
-            name: "End of School Day",
-            short: "School Dismissed"
-        },
-        {
-            time: clockTimeToTimestamp("23:59"),
-            name: "End of Day",
-            short: "End of Day"
+    return await fetch(`res/classInfo/periods/${periodSetName}.json`)
+        .then(response => response.json())
+        .then(data => {
+            for (let i = 0; i < data.length; i++) {
+                if (!data[i].time) {
+                    throw new Error(`No 'time' property specified in period item ${i}`);
+                } else {
+                    data[i].time = clockTimeToTimestamp(data[i].time);
+                }
+                if (!data[i].name) {
+                    throw new Error(`No 'name' property specified in period item ${i}`);
+                }
+                if (!data[i].short) {
+                    throw new Error(`No 'short' property specified in period item ${i}`);
+                }
+
+            }
+            return data;
+        });
+}
+
+/**
+ * Converts a custom period set times into today's timestamps.
+ *
+ * @param periodSet {Array.<{time: string, name:string, short:string}>} - The custom period set.
+ * @returns {Array.<{time: number, name:string, short:string}>} - A modified array of the period set with timestamps
+ */
+function getCustomPeriodTimes(periodSet) {
+    if (!periodSet) {
+        throw new ReferenceError("Missing parameter \"periodSet\"");
+    }
+
+    for (let i = 0; i < periodSet.length; i++) {
+        if (!periodSet[i].time) {
+            console.error(`No 'time' property specified in period item ${i}`);
+        } else {
+            periodSet[i].time = clockTimeToTimestamp(periodSet[i].time);
         }
-    ];
+        if (!periodSet[i].name) {
+            console.error(`No 'name' property specified in period item ${i}`);
+        }
+        if (!periodSet[i].short) {
+            console.error(`No 'short' property specified in period item ${i}`);
+        }
+
+    }
+    return periodSet;
+
 }

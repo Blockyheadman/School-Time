@@ -1,0 +1,179 @@
+[
+  {
+    "name": "Junior Yearbook Photos",
+    "date": "08-29-2024",
+    "special": {
+      "location": "The Loft"
+    }
+  },
+  {
+    "name": "Sophomore Yearbook Photos",
+    "date": "08-30-2024",
+    "special": {
+      "location": "The Loft"
+    }
+  },
+  {
+    "name": "Club Rush",
+    "date": "09-05-2024"
+  },
+  {
+    "name": "Accuplacer",
+    "date": "09-19-2024",
+    "special": {
+      "time": "08:30-11:50",
+      "location": "Media Center"
+    }
+  },
+  {
+    "name": "ASVAB",
+    "date": "09-26-2024",
+    "special": {
+      "time": "09:00-11:50",
+      "location": "The Loft"
+    }
+  },
+  {
+    "name": "Senior Spotlights Due",
+    "date": "09-27-2024",
+    "special": {
+      "location": "Front Entrance"
+    }
+  },
+  {
+    "name": "Mary Poppins Performance",
+    "date": "10-09-2024"
+  },
+  {
+    "name": "Accuplacer",
+    "date": "10-17-2024",
+    "special": {
+      "time": "08:30-11:50",
+      "location": "Media Center"
+    }
+  },
+  {
+    "name": "Homecoming Dance",
+    "date": "10-18-2024",
+    "special": {
+      "time": "22:00-23:59",
+      "location": "Cafeteria"
+    }
+  },
+  {
+    "name": "PSAT/NMSQT",
+    "date": "10-23-2024"
+  },
+  {
+    "name": "Accuplacer",
+    "date": "11-14-2024",
+    "special": {
+      "time": "08:30-11:50",
+      "location": "Media Center"
+    }
+  },
+  {
+    "name": "ASVAB",
+    "date": "11-21-2024",
+    "special": {
+      "time": "09:00-11:50",
+      "location": "The Loft"
+    }
+  },
+  {
+    "name": "Accuplacer",
+    "date": "12-12-2024",
+    "special": {
+      "time": "08:30-11:50",
+      "location": "Media Center"
+    }
+  },
+  {
+    "name": "Winter Formal",
+    "date": "12-14-2024",
+    "special": {
+      "time": "20:00-23:00",
+      "location": "Cafeteria"
+    }
+  },
+  {
+    "name": "Accuplacer",
+    "date": "01-16-2025",
+    "special": {
+      "time": "08:30-11:50",
+      "location": "Media Center"
+    }
+  },
+  {
+    "name": "Accuplacer",
+    "date": "02-13-2025",
+    "special": {
+      "time": "08:30-11:50",
+      "location": "Media Center"
+    }
+  },
+  {
+    "name": "ASVAB",
+    "date": "02-20-2025",
+    "special": {
+      "time": "09:00-11:50",
+      "location": "The Loft"
+    }
+  },
+  {
+    "name": "ASVAB",
+    "date": "03-06-2025",
+    "special": {
+      "time": "09:00-11:50",
+      "location": "The Loft"
+    }
+  },
+  {
+    "name": "Accuplacer",
+    "date": "03-13-2025",
+    "special": {
+      "time": "08:30-11:50",
+      "location": "Media Center"
+    }
+  },
+  {
+    "name": "Accuplacer",
+    "date": "04-03-2025",
+    "special": {
+      "time": "08:30-11:50",
+      "location": "Media Center"
+    }
+  },
+  {
+    "name": "Accuplacer",
+    "date": "04-24-2025",
+    "special": {
+      "time": "08:30-11:50",
+      "location": "Media Center"
+    }
+  },
+  {
+    "name": "Accuplacer",
+    "date": "05-01-2025",
+    "special": {
+      "time": "08:30-11:50",
+      "location": "Media Center"
+    }
+  },
+  {
+    "name": "ASVAB",
+    "date": "05-01-2025",
+    "special": {
+      "time": "09:00-11:50",
+      "location": "The Loft"
+    }
+  },
+  {
+    "name": "Accuplacer",
+    "date": "05-08-2025",
+    "special": {
+      "time": "08:30-11:50",
+      "location": "Media Center"
+    }
+  }
+]

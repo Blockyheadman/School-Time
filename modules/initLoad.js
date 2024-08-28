@@ -1,13 +1,21 @@
+/*
+ * Copyright (c) 2024. Elijah McCalley
+ * All rights reserved.
+ */
+
+export {initLoad};
+
 /**
  * Sets up the website for use.
  */
-export function initLoad() {
-    // Setup the website.
-    if (!localStorage.getItem("initialized"))
+function initLoad() {
+    // Set up the website.
+    if (location.pathname === "/" && !localStorage.getItem("initialized"))
         firstLoad();
 
-    document.documentElement.style.backgroundColor = localStorage.getItem("body-background-color");
-    document.documentElement.style.color = localStorage.getItem("body-foreground-color");
+    let root = document.querySelector(":root")
+    root.style.setProperty("--bg-color", localStorage.getItem("body-background-color"));
+    root.style.setProperty("--fg-color", localStorage.getItem("body-foreground-color"));
 }
 
 /**
@@ -15,15 +23,15 @@ export function initLoad() {
  */
 function firstLoad() {
     // Do first time setup if necessary.
-    const systemDarkTheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const SYSTEM_DARK_THEME = window.matchMedia('(prefers-color-scheme: dark)');
 
-    if (systemDarkTheme.matches) {
+    if (SYSTEM_DARK_THEME.matches) {
         localStorage.setItem("body-background-color", "#232323");
-        localStorage.setItem("body-foreground-color", "#E3E3E3");
+        localStorage.setItem("body-foreground-color", "#F1F1F1");
 
     } else {
-        localStorage.setItem("body-background-color", "#E3E3E3");
-        localStorage.setItem("body-foreground-color", "#232323");
+        localStorage.setItem("body-background-color", "#F1F1F1");
+        localStorage.setItem("body-foreground-color", "#000000");
     }
 
     localStorage.setItem("initialized", "1");

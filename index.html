@@ -1,4 +1,10 @@
+<!--
+  ~ Copyright (c) 2024. Elijah McCalley
+  ~ All rights reserved.
+  -->
+
 <!DOCTYPE html>
+<!--<html lang="en" style="font-family: monospace; font-size: 1rem">-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,32 +13,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#E3E3E3">
 
-    <link rel="stylesheet" href="index.css"/>
-    <link rel="manifest" href="manifest.json"/>
-    <link rel="icon" href="res/icons/hd_hi.ico">
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
     </style>
+
+    <link rel="stylesheet" href="res/CSS/global.min.css"/>
+    <link rel="stylesheet" href="index.min.css"/>
+    <!--    <link rel="manifest" href="manifest.json"/>-->
+    <link rel="icon" href="res/icons/hd_512.png">
 
     <title>School Time</title>
 </head>
 <body>
 
-<div id="top-content">
-    <label for="day-finished-progress" id="day-finished-progress-label">Day Progress: </label>
-    <progress id="day-finished-progress" value="50" max="100">50%</progress>
+<div id="full-size-div">
+    <div id="top-content">
+        <div id="top-left-content">
+            <label for="day-finished-progress" id="day-finished-progress-label">Day Progress: 0%</label>
+            <progress id="day-finished-progress" value="0" max="100">50%</progress>
+        </div>
+        <div id="top-right-content">
+            <button onclick="toggleElementVisibility(document.getElementById('settings-content'))">
+                Settings
+            </button>
+            <div id="settings-content" style="display: none; opacity: 0">
+                <h1>Settings</h1>
+                <p>Nothing to see here :-*</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="center-content">
+        <p id="current-period">Schooling</p>
+        <p id="next-period-time">Hours</p>
+        <p id="day-end-time">is loading.. :)</p>
+        <div id="table-wrapper">
+            <table>
+                <caption>Student Calendar Events</caption>
+                <tbody id="events-student-calendar">
+                <tr>
+                    <td>Loading events..</td>
+                </tr>
+                </tbody>
+            </table>
+            <table>
+                <caption>Extra Events</caption>
+                <tbody id="events-extra">
+                <tr>
+                    <td>Please wait..</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="bottom-content">
+        <p style="font-weight: bold; max-width: 50ch;">
+            This is the new Schooling hours built from the ground up to be more modern,
+            modular, and efficient than ever before.
+        </p>
+        <p style="max-width: 50ch;">
+            Original website by James Cartwright
+            <br>
+            New website by Elijah McCalley
+        </p>
+    </div>
 </div>
 
-<div id="center-content">
-    <p id="current-period">School</p>
-    <p id="next-period-time">Time</p>
-    <p id="day-end-time">:)</p>
-</div>
-
-<noscript>School Time requires JavaScript to run.</noscript>
-
-<script type="module" src="index.js"></script>
+<noscript>Schooling Hours requires JavaScript to run.</noscript>
+<script type="module" src="index.min.js"></script>
+<script type="module" src="modules/animateItem.min.js"></script>
 
 </body>
 </html>

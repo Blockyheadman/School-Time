@@ -1,0 +1,70 @@
+/*
+ * Copyright (c) 2024. Elijah McCalley
+ * All rights reserved.
+ */
+
+:root {
+    --bg-color: #F1F1F1;
+    --fg-color: #000000;
+}
+
+* {
+    color: var(--fg-color);
+
+    font-family: unset;
+}
+
+html {
+    font-family: "Montserrat", sans-serif;
+    transition: background-color 250ms, color 250ms;
+
+    background-color: var(--bg-color);
+    color: var(--fg-color);
+}
+
+table {
+    border-collapse: collapse;
+    text-align: left;
+}
+
+td, th {
+    border: 0.0625rem solid var(--fg-color);
+    border-radius: 1rem;
+}
+
+button {
+    color: var(--fg-color);
+    /*background-color: rgba(0, 0, 0, 0);*/
+    background-color: rgba(from var(--bg-color) r g b / 0.5);
+    border: 0.1rem solid;
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+
+    font-weight: bold;
+
+    transition: 250ms;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    button:hover {
+        background-color: var(--fg-color);
+        color: var(--bg-color);
+        border: 0.1rem solid rgba(0, 0, 0, 0);
+        border-radius: 0.35rem;
+    }
+}
+
+button:active {
+    background-color: var(--fg-color);
+    color: var(--bg-color);
+    border: 0.1rem solid rgba(0, 0, 0, 0);
+    border-radius: 0.65rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #232323;
+        --fg-color: #F1F1F1;
+    }
+}

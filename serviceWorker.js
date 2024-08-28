@@ -1,0 +1,38 @@
+/*
+ * Copyright (c) 2024. Elijah McCalley
+ * All rights reserved.
+ */
+
+const OFFLINE_FILES = [
+    "/",
+    "/index.html",
+    "/index.min.css",
+    "/index.min.js",
+    "/manifest.json",
+    "/modules/animateItem.min.js",
+    "/modules/eventSetup.min.js",
+    "/modules/initLoad.min.js",
+    "/modules/timeConversion.min.js",
+    "/modules/timeSetup.min.js",
+    "/res/CSS/global.min.css",
+    "/res/icons/hd_512.png",
+];
+
+self.addEventListener("install", (event) => {
+    event.waitUntil(
+        caches.open("offline-cache").then(function (cache) {
+            console.debug("Caching website files..");
+            return cache.addAll(OFFLINE_FILES);
+        })
+    );
+});
+
+self.addEventListener("fetch", (event) => {
+    event.respondWith(
+        fetch(event.request)
+            .catch(() => {
+                console.debug(`fetching ${event.request.url}`);
+                return caches.match(event.request);
+            })
+    );
+});
