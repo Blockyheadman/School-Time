@@ -32,6 +32,13 @@
             <label for="day-finished-progress" id="day-finished-progress-label">Day Progress: 0%</label>
             <progress id="day-finished-progress" value="0" max="100">50%</progress>
         </div>
+        <noscript><h2 style="text-align: center">
+            Uh oh! 😞
+            <br>
+            Looks like JavaScript isn't enabled or supported..
+            <br>
+            Please enable JavaScript or find a device that supports it.
+        </h2></noscript>
         <div id="top-right-content">
             <button onclick="toggleElementVisibility(document.getElementById('settings-content'))">
                 Settings
@@ -44,15 +51,15 @@
     </div>
 
     <div id="center-content">
-        <p id="current-period">Schooling</p>
-        <p id="next-period-time">Hours</p>
+        <p id="current-period">School</p>
+        <p id="next-period-time">Time</p>
         <p id="day-end-time">is loading.. :)</p>
         <div id="table-wrapper">
             <table>
                 <caption>Student Calendar Events</caption>
                 <tbody id="events-student-calendar">
                 <tr>
-                    <td>Loading events..</td>
+                    <td>Loading events…</td>
                 </tr>
                 </tbody>
             </table>
@@ -60,7 +67,7 @@
                 <caption>Extra Events</caption>
                 <tbody id="events-extra">
                 <tr>
-                    <td>Please wait..</td>
+                    <td>Please wait…</td>
                 </tr>
                 </tbody>
             </table>
@@ -80,7 +87,6 @@
     </div>
 </div>
 
-<noscript>Schooling Hours requires JavaScript to run.</noscript>
 <script type="module" src="index.min.js"></script>
 <script type="module" src="modules/animateItem.min.js"></script>
 
