@@ -16,7 +16,8 @@ const ROOT_STYLESHEET = window.getComputedStyle(ROOT_CSS);
  */
 function initLoad() {
     // Sets up the website for the first time if uninitialized.
-    if (location.pathname === "/" && !localStorage.getItem("initialized"))
+    // if (location.pathname === "/" && !localStorage.getItem("initialized"))
+    if (!localStorage.getItem("initialized"))
         firstLoad();
 
     // Set theme preference settings
