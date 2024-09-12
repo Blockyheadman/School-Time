@@ -150,6 +150,15 @@
     text-align: center;
 }
 
+#site-message {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+    max-width: 80ch;
+}
+
 @media (prefers-reduced-motion: no-preference) {
     #theme-custom-colors {
         transition: clip 250ms;
