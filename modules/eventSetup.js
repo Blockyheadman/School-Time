@@ -17,13 +17,17 @@ export {getEvents, setupEvents};
  *
  * @param eventSet {Array<*>} - The set of events to modify.
  * @param eventSetType {string} - The type of event list.
+ * @param eventCount {number} - The number of events to show.
  */
-function setupEvents(eventSet, eventSetType) {
+function setupEvents(eventSet, eventSetType, eventCount) {
     if (!eventSet) {
         throw new ReferenceError("Missing parameter \"eventSet\"");
     }
     if (!eventSetType) {
         throw new ReferenceError("Missing parameter \"eventSetType\"");
+    }
+    if (!eventCount) {
+        throw new ReferenceError("Missing parameter \"eventCount\"");
     }
 
     let eventTable;
@@ -39,18 +43,51 @@ function setupEvents(eventSet, eventSetType) {
     eventTable.innerText = "";
 
     const CURRENT_DATE = new Date();
-    for (let i = 0; i < 6; i++) {
+
+    let eventShift = 0;
+    for (let i = 0; i < eventCount + eventShift; i++) {
         const EVENT_DATA = eventSet[i];
+        const DAYS_LEFT = Math.floor((EVENT_DATA.date - CURRENT_DATE.getTime()) / 86500000);
 
-        let rowData = "<tr><td>";
-        rowData += EVENT_DATA.name;
-        rowData += "</td><td>";
+        if (DAYS_LEFT >= 0) {
+            let rowData = "<tr><td>";
+            rowData += EVENT_DATA.name;
+            rowData += "</td><td>";
 
-        rowData += Math.floor((EVENT_DATA.date - CURRENT_DATE.getTime()) / 86500000);
-        rowData += " days";
+            if (DAYS_LEFT >= 1) {
+                rowData += DAYS_LEFT;
+                rowData += " days";
+            } else if (DAYS_LEFT === 0) {
+                rowData += "Today";
+            }
 
-        rowData += "</td></tr>";
-        eventTable.innerHTML += rowData;
+            rowData += "</td></tr>";
+
+            if (EVENT_DATA.special) {
+                if (EVENT_DATA.special.endDate && i + 1 < eventCount + eventShift) {
+                    const DAYS_LEFT = Math.floor((EVENT_DATA.special.endDate - CURRENT_DATE.getTime()) / 86500000);
+
+                    rowData += "<tr><td>";
+                    rowData += EVENT_DATA.name + " ends";
+                    rowData += "</td><td>";
+
+                    if (DAYS_LEFT >= 1) {
+                        rowData += DAYS_LEFT;
+                        rowData += " days";
+                    } else if (DAYS_LEFT === 0) {
+                        rowData += "Today";
+                    }
+
+                    rowData += "</td></tr>";
+                    i++;
+                }
+            }
+
+            eventTable.innerHTML += rowData;
+        } else {
+            eventShift++;
+        }
+
     }
 }
 

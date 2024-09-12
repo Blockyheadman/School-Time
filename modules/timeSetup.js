@@ -9,21 +9,21 @@ export {setupTimes, getPeriodTimes, getCurrentPeriodIndex};
 
 let currentPeriodIndex;
 
-function getCurrentPeriodIndex() {
-    return currentPeriodIndex;
-}
-
 /**
  * Sets time visuals on the main page.
  *
  * @param periods {Array.<{time: string, name:string, short:string}>} - An array of periods.
+ * @param customCheckout {number} - An early checkout time if applicable
  */
-function setupTimes(periods) {
+function setupTimes(periods, customCheckout = NaN) {
     if (!periods) {
         throw new ReferenceError("Missing parameter \"periods\"");
     }
+    if (typeof customCheckout !== "number") {
+        throw new TypeError("Type of \"customCheckout\" should be a number");
+    }
 
-    const CURRENT_DATE = new Date().getTime();
+    const CURRENT_TIME = new Date().getTime();
     const DAY_END_TIME = document.getElementById("day-end-time");
     const PROGRESS_BAR = document.getElementById("day-finished-progress");
     const PROGRESS_BAR_LABEL = document.getElementById("day-finished-progress-label");
@@ -33,24 +33,26 @@ function setupTimes(periods) {
         // console.debug(periods[i]);
 
         // If
-        if (CURRENT_DATE < periods[i].time)
+        if (CURRENT_TIME < periods[i].time)
             break;
 
         const NEXT_PERIOD = i < periods.length - 1 ? periods[i + 1] : periods[0];
         // console.debug(nextPeriod);
 
-        if (i < periods.length - 1 && CURRENT_DATE > NEXT_PERIOD.time)
+        if (i < periods.length - 1 && CURRENT_TIME > NEXT_PERIOD.time)
             continue;
 
+        const SCHOOL_END_TIME = isNaN(customCheckout) ? periods[periods.length - 2].time : customCheckout;
         currentPeriodIndex = i;
 
         // Change displayed period name
-        document.getElementById("current-period").innerText = periods[i].name;
+        document.getElementById("current-period").innerText = periods[i].name
+            + (!isNaN(customCheckout) && CURRENT_TIME > SCHOOL_END_TIME ? "\n(Checked out)" : "");
 
         // Calculate different times
-        let hoursLeft = Math.floor((NEXT_PERIOD.time - CURRENT_DATE) / 1000 / 60 / 60);
-        let minutesLeft = Math.floor((NEXT_PERIOD.time - CURRENT_DATE) / 1000 / 60);
-        let secondsLeft = Math.abs((minutesLeft * 60) - Math.floor((NEXT_PERIOD.time - CURRENT_DATE) / 1000));
+        let hoursLeft = Math.floor((NEXT_PERIOD.time - CURRENT_TIME) / 1000 / 60 / 60);
+        let minutesLeft = Math.floor((NEXT_PERIOD.time - CURRENT_TIME) / 1000 / 60);
+        let secondsLeft = Math.abs((minutesLeft * 60) - Math.floor((NEXT_PERIOD.time - CURRENT_TIME) / 1000));
 
         // console.debug(`Current date:        ${currentDate}`);
         // console.debug(`Period date:         ${nextPeriod.time}`);
@@ -61,24 +63,25 @@ function setupTimes(periods) {
         // console.debug(`Seconds left:        ${secondsLeft}`);
 
         // Create the string for the 'time left until' element
-        let timeLeftString = createTimeLeftString(hoursLeft, minutesLeft, secondsLeft, NEXT_PERIOD);
+        let timeLeftString = createTimeLeftString(hoursLeft, minutesLeft, secondsLeft, NEXT_PERIOD.name);
         document.getElementById("next-period-time").innerText = timeLeftString;
 
         // Set 'day left time' element text
-        if (CURRENT_DATE < periods[periods.length - 2].time) {
-            hoursLeft = Math.floor((periods[periods.length - 2].time - CURRENT_DATE) / 1000 / 60 / 60);
-            minutesLeft = Math.floor((periods[periods.length - 2].time - CURRENT_DATE) / 1000 / 60);
-            secondsLeft = Math.abs((minutesLeft * 60) - Math.floor((periods[periods.length - 2].time - CURRENT_DATE) / 1000));
+        if (CURRENT_TIME < SCHOOL_END_TIME) {
+            hoursLeft = Math.floor((SCHOOL_END_TIME - CURRENT_TIME) / 1000 / 60 / 60);
+            minutesLeft = Math.floor((SCHOOL_END_TIME - CURRENT_TIME) / 1000 / 60);
+            secondsLeft = Math.abs((minutesLeft * 60) - Math.floor((SCHOOL_END_TIME - CURRENT_TIME) / 1000));
 
-            timeLeftString = createTimeLeftString(hoursLeft, minutesLeft, secondsLeft, periods[periods.length - 2]);
+            timeLeftString = createTimeLeftString(hoursLeft, minutesLeft, secondsLeft, periods[periods.length - 2].name);
 
             DAY_END_TIME.innerText = timeLeftString;
         } else {
             DAY_END_TIME.innerText = "It's the end of the school day! 🥳";
+
         }
 
         // Setup progress bar percent
-        const FINISHED_PERCENT = ((CURRENT_DATE - periods[1].time) / (periods[periods.length - 2].time - periods[1].time)) * 100;
+        const FINISHED_PERCENT = ((CURRENT_TIME - periods[1].time) / (SCHOOL_END_TIME - periods[1].time)) * 100;
 
         PROGRESS_BAR.value = FINISHED_PERCENT.toFixed(2);
         PROGRESS_BAR.innerText = `${FINISHED_PERCENT.toFixed(2)}%`;
@@ -86,6 +89,7 @@ function setupTimes(periods) {
             FINISHED_PERCENT < 0 ? "Day Progress: 0%" : FINISHED_PERCENT < 100 ? `Day Progress: ${FINISHED_PERCENT.toFixed(2)}%` : "Day Progress: 100%"
         );
 
+        // Sets title of tab depending on if user is on the page or not.
         // Eventually, make this customizable for users or optional.
         if (document.hidden) {
             let timeString = `${periods[i].short} - `;
@@ -99,20 +103,24 @@ function setupTimes(periods) {
     }
 }
 
+function getCurrentPeriodIndex() {
+    return currentPeriodIndex;
+}
+
 /**
  * Creates a string for how much time is left for something in hours, minutes, and seconds.
  *
  * @param hoursLeft {number} - How many hours left until next period.
  * @param minutesLeft {number} - How many minutes left until next period.
  * @param secondsLeft {number} - How many seconds left until next period.
- * @param nextPeriodInfo - The info about the next period.
+ * @param nextPeriodName {string} - The info about the next period.
  * @returns {string} - A formatted 'time left' string. (7 hours and 13 minutes and 13 seconds left until End of Day)
  */
-function createTimeLeftString(hoursLeft, minutesLeft, secondsLeft, nextPeriodInfo) {
+function createTimeLeftString(hoursLeft, minutesLeft, secondsLeft, nextPeriodName) {
     let timeLeftString = (hoursLeft > 0 ? hoursLeft + " hour" + (hoursLeft !== 1 ? "s" : "") + " and " : "");
     timeLeftString += (minutesLeft > 0 ? minutesLeft - hoursLeft * 60 + " minute" + (minutesLeft !== 1 ? "s" : "") + " and " : "");
     timeLeftString += secondsLeft + " second" + (secondsLeft !== 1 ? "s" : "");
-    timeLeftString += " left until " + nextPeriodInfo.name;
+    timeLeftString += " left until " + nextPeriodName;
 
     return timeLeftString;
 }

@@ -2,6 +2,9 @@
   "name": "School Time",
   "short_name": "School Time",
   "description": "Tells you how long a period lasts and when/what the next one will be.",
+  "categories": [
+    "utilities"
+  ],
   "icons": [
     {
       "src": "res/icons/hd_hi.svg",

@@ -6,6 +6,7 @@
         <item url="file://$PROJECT_DIR$/modules/animateItem.min.js" />
         <item url="file://$PROJECT_DIR$/modules/eventSetup.min.js" />
         <item url="file://$PROJECT_DIR$/modules/initLoad.min.js" />
+        <item url="file://$PROJECT_DIR$/modules/settingsActions.min.js" />
         <item url="file://$PROJECT_DIR$/modules/timeConversion.min.js" />
         <item url="file://$PROJECT_DIR$/modules/timeSetup.min.js" />
         <item url="file://$PROJECT_DIR$/serviceWorker.min.js" />
@@ -16,6 +17,7 @@
       <root url="file://$PROJECT_DIR$/modules/animateItem.min.js" />
       <root url="file://$PROJECT_DIR$/modules/eventSetup.min.js" />
       <root url="file://$PROJECT_DIR$/modules/initLoad.min.js" />
+      <root url="file://$PROJECT_DIR$/modules/settingsActions.min.js" />
       <root url="file://$PROJECT_DIR$/modules/timeConversion.min.js" />
       <root url="file://$PROJECT_DIR$/modules/timeSetup.min.js" />
       <root url="file://$PROJECT_DIR$/serviceWorker.min.js" />

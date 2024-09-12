@@ -6,6 +6,7 @@
 import {initLoad} from "./modules/initLoad.min.js";
 import {getPeriodTimes, setupTimes} from "./modules/timeSetup.min.js";
 import {getEvents, setupEvents} from "./modules/eventSetup.min.js";
+import {CLOCK_TIME_REGEX, clockTimeToTimestamp} from "./modules/timeConversion.min.js";
 
 if (navigator.serviceWorker) {
     window.addEventListener("load", async function () {
@@ -25,13 +26,18 @@ if (navigator.serviceWorker) {
     });
 }
 
+
 // Setup main website
 initLoad();
 
-// The list of periods from a given school
+// The list of periods and events from a given school
 let periods = await getPeriodTimes("Cabot-High");
 let studentCalendarEvents = await getEvents("Cabot-High", "studentCalendar")
 let extraEvents = await getEvents("Cabot-High", "extra")
+
+// The custom checkout time if applicable
+let customCheckout = NaN;
+let eventCount = Number.parseInt(localStorage.getItem("event-display-count"));
 
 // Example for saving to cache the events
 // if (window.caches) {
@@ -49,13 +55,15 @@ async function updateTimes() {
     const morningDate = new Date(periods[0].time);
     if (date.getDate() > morningDate.getDate()) {
         periods = await getPeriodTimes("Cabot-High");
-        studentCalendarEvents = await getEvents("Cabot-High", "studentCalendar")
-        extraEvents = await getEvents("Cabot-High", "extra")
+        studentCalendarEvents = await getEvents("Cabot-High", "studentCalendar");
+        extraEvents = await getEvents("Cabot-High", "extra");
+
+        resetCheckoutTime();
     }
 
-    setupTimes(periods);
-    setupEvents(studentCalendarEvents, "studentCalendar");
-    setupEvents(extraEvents, "extra");
+    setupTimes(periods, customCheckout);
+    setupEvents(studentCalendarEvents, "studentCalendar", eventCount);
+    setupEvents(extraEvents, "extra", eventCount);
 
     const currentTime = new Date();
     currentTime.setMilliseconds(0);
@@ -88,3 +96,46 @@ await updateTimes();
 
 // Main loop for updating times
 setInterval(updateTimes, 500, periods);
+
+/**
+ * Sets the custom checkout time.
+ */
+function setCheckoutTime() {
+    const INPUT_BOX = document.getElementById("early-checkout-input");
+
+    if (CLOCK_TIME_REGEX.test(INPUT_BOX.value)) {
+        customCheckout = clockTimeToTimestamp(INPUT_BOX.value);
+    } else {
+        INPUT_BOX.value = "Incorrect format";
+    }
+}
+
+/**
+ * Resets the custom checkout time.
+ */
+function resetCheckoutTime() {
+    document.getElementById("early-checkout-input").value = "";
+    customCheckout = NaN;
+}
+
+async function setEventCount() {
+    const EVENT_COUNT_INPUT = document.getElementById("event-display-count");
+    const EVENT_COUNT = Number.parseInt(EVENT_COUNT_INPUT.value);
+
+    if (EVENT_COUNT < EVENT_COUNT_INPUT.min) {
+        EVENT_COUNT_INPUT.value = EVENT_COUNT_INPUT.min;
+    } else if (EVENT_COUNT > EVENT_COUNT_INPUT.max) {
+        EVENT_COUNT_INPUT.value = EVENT_COUNT_INPUT.max;
+    } else if (isNaN(EVENT_COUNT)) {
+        EVENT_COUNT_INPUT.value = 6;
+    }
+
+    localStorage.setItem("event-display-count", EVENT_COUNT);
+    eventCount = EVENT_COUNT;
+
+    await updateTimes();
+}
+
+window.setCheckoutTime = setCheckoutTime;
+window.resetCheckoutTime = resetCheckoutTime;
+window.setEventCount = setEventCount;

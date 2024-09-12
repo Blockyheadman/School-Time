@@ -11,7 +11,7 @@
     <meta name="description" content="Tells you how long a period lasts and when/what the next one will be.">
     <meta name="author" content="Elijah McCalley">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#E3E3E3">
+    <meta name="theme-color" content="#000000">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
@@ -27,6 +27,7 @@
 <body>
 
 <div id="full-size-div">
+    <img id="background-image" src="" alt="user background image" style="display: none; opacity: 0"/>
     <div id="top-content">
         <div id="top-left-content">
             <label for="day-finished-progress" id="day-finished-progress-label">Day Progress: 0%</label>
@@ -43,9 +44,92 @@
             <button onclick="toggleElementVisibility(document.getElementById('settings-content'))">
                 Settings
             </button>
-            <div id="settings-content" style="display: none; opacity: 0">
+            <!--<div id="settings-content" style="display: none; opacity: 0">-->
+            <div id="settings-content">
                 <h1>Settings</h1>
-                <p>Nothing to see here :-*</p>
+                <h2>Early Checkout</h2>
+                <p>Sets the end of day time to when you checkout. (Military Format HH:MM)</p>
+                <label>
+                    Checkout time:
+                    <input id="early-checkout-input" type="text"/>
+                </label>
+                <br><br>
+                <button onclick="setCheckoutTime()">Confirm</button>
+                <button onclick="resetCheckoutTime()">Reset</button>
+                <h2>Theming</h2>
+                <label>
+                    Theme Mode:
+                    <select id="theme-preference" onchange="setThemePreference()">
+                        <option id="theme-preference-system" value="system">System Preference</option>
+                        <option id="theme-preference-light" value="light">Light</option>
+                        <option id="theme-preference-dark" value="dark">Dark</option>
+                        <option id="theme-preference-custom" value="custom">Custom</option>
+                    </select>
+                </label>
+                <div id="theme-custom-colors">
+                    <div>
+                        <h3>Custom Colors</h3>
+                        <h2></h2>
+                        <div class="small-space-under">
+                            <label>
+                                Background:
+                                <input id="theme-custom-background" type="text"/>
+                            </label>
+                        </div>
+                        <div class="small-space-under">
+                            <label>
+                                Foreground:
+                                <input id="theme-custom-foreground" type="text"/>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Background</h3>
+                <label class="button">
+                    Set BG
+                    <input type="file" id="background-selector" accept="image/*" hidden/>
+                </label>
+                <button id="toggle-background-button" onclick="toggleBackgroundVisibility()">Toggle BG: Off</button>
+                <button onclick="clearBackground()">Clear BG Data</button>
+                <h3>Universal Color</h3>
+                <p>Your splash of color, even outside the website.</p>
+                <label>
+                    Universal Color Mode:
+                    <select id="universal-color" onchange="setUniversalColorMode()">
+                        <option id="universal-color-disabled" value="disabled">Disabled</option>
+                        <option id="universal-color-background" value="background">Background</option>
+                        <option id="universal-color-foreground" value="foreground">Foreground</option>
+                    </select>
+                </label>
+                <h2>Extra Settings</h2>
+                <label>
+                    Visible event count (3-9):
+                    <input id="event-display-count" oninput="setEventCount()" type="number" min="3" max="9"
+                           inputmode="numeric">
+                </label>
+                <h3>Hide Elements</h3>
+                <div class="small-space-under">
+                    End of Day Timer:
+                    <button id="day-end-time-toggle" onclick="toggleSiteElementVisibility(this.id, 'day-end-time')">
+                        Visible
+                    </button>
+                </div>
+                <div class="small-space-under">
+                    Upcoming Events:
+                    <button id="upcoming-events-toggle"
+                            onclick="toggleSiteElementVisibility(this.id, 'upcoming-events')">Visible
+                    </button>
+                </div>
+                <div class="small-space-under">
+                    Site Message:
+                    <button id="site-message-toggle" onclick="toggleSiteElementVisibility(this.id, 'site-message')">
+                        Visible
+                    </button>
+                </div>
+                <button>Reset Settings</button>
+                <!-- <br><br>-->
+                <!-- <p>Nothing to see here :-*</p>-->
             </div>
         </div>
     </div>
@@ -54,7 +138,7 @@
         <p id="current-period">School</p>
         <p id="next-period-time">Time</p>
         <p id="day-end-time">is loading.. :)</p>
-        <div id="table-wrapper">
+        <div id="upcoming-events">
             <table>
                 <caption>Student Calendar Events</caption>
                 <tbody id="events-student-calendar">
@@ -75,20 +159,23 @@
     </div>
 
     <div id="bottom-content">
-        <p style="font-weight: bold; max-width: 50ch;">
-            This is the new Schooling hours built from the ground up to be more modern,
-            modular, and efficient than ever before.
-        </p>
-        <p style="max-width: 50ch;">
-            Original website by James Cartwright
-            <br>
-            New website by Elijah McCalley
-        </p>
+        <div id="site-message">
+            <p style="font-weight: bold; max-width: 50ch;">
+                This is the new Schooling hours built from the ground up to be more modern,
+                modular, and efficient than ever before.
+            </p>
+            <p style="max-width: 50ch;">
+                Original website by James Cartwright
+                <br>
+                New website by Elijah McCalley
+            </p>
+        </div>
     </div>
 </div>
 
 <script type="module" src="index.min.js"></script>
 <script type="module" src="modules/animateItem.min.js"></script>
+<script type="module" src="modules/settingsActions.min.js"></script>
 
 </body>
 </html>
