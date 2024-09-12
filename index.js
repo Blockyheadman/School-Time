@@ -120,18 +120,21 @@ function resetCheckoutTime() {
 
 async function setEventCount() {
     const EVENT_COUNT_INPUT = document.getElementById("event-display-count");
-    const EVENT_COUNT = Number.parseInt(EVENT_COUNT_INPUT.value);
+    let newEventCount = Number.parseInt(EVENT_COUNT_INPUT.value);
 
-    if (EVENT_COUNT < EVENT_COUNT_INPUT.min) {
+    if (newEventCount < EVENT_COUNT_INPUT.min) {
         EVENT_COUNT_INPUT.value = EVENT_COUNT_INPUT.min;
-    } else if (EVENT_COUNT > EVENT_COUNT_INPUT.max) {
+        newEventCount = parseInt(EVENT_COUNT_INPUT.min);
+    } else if (newEventCount > EVENT_COUNT_INPUT.max) {
         EVENT_COUNT_INPUT.value = EVENT_COUNT_INPUT.max;
-    } else if (isNaN(EVENT_COUNT)) {
-        EVENT_COUNT_INPUT.value = 6;
+        newEventCount = parseInt(EVENT_COUNT_INPUT.max);
+    } else if (isNaN(newEventCount)) {
+        EVENT_COUNT_INPUT.value = Math.floor(parseInt(EVENT_COUNT_INPUT.max) - parseInt(EVENT_COUNT_INPUT.min));
+        newEventCount = Math.floor(parseInt(EVENT_COUNT_INPUT.max) - parseInt(EVENT_COUNT_INPUT.min));
     }
 
-    localStorage.setItem("event-display-count", EVENT_COUNT);
-    eventCount = EVENT_COUNT;
+    localStorage.setItem("event-display-count", newEventCount);
+    eventCount = newEventCount;
 
     await updateTimes();
 }
