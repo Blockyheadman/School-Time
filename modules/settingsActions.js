@@ -8,6 +8,7 @@
  */
 
 import {setElementVisibility, setElementVisibilityWithScale} from "./animateItem.min.js";
+import {firstLoad} from "./initLoad.min.js";
 
 export {setBackgroundVisibility, toggleBackgroundVisibility, setSiteElementVisibility, toggleSiteElementVisibility};
 
@@ -202,6 +203,35 @@ function setSiteElementVisibility(buttonId, elementId, makeVisible, transitionSp
     setElementVisibility(ELEMENT, makeVisible, transitionSpeedMs);
 }
 
+async function resetSettings() {
+    if (!window.confirm("Are you sure you want to reset your settings?")) {
+        return;
+    }
+
+    firstLoad();
+
+    const THEME_PREFERENCE_SELECTOR = document.getElementById("theme-preference");
+    THEME_PREFERENCE_SELECTOR.value = "system";
+    setThemePreference();
+
+    document.getElementById("theme-custom-background").value = localStorage.getItem("custom-background-color");
+    document.getElementById("theme-custom-foreground").value = localStorage.getItem("custom-foreground-color");
+
+    clearBackground();
+
+    const UNIVERSAL_COLOR_SELECTOR = document.getElementById("universal-color");
+    UNIVERSAL_COLOR_SELECTOR.value = "disabled";
+    setUniversalColorMode();
+
+    const EVENT_COUNT_INPUT = document.getElementById("event-display-count");
+    EVENT_COUNT_INPUT.value = Math.floor(parseInt(EVENT_COUNT_INPUT.max) - parseInt(EVENT_COUNT_INPUT.min));
+    await setEventCount();
+
+    setSiteElementVisibility("day-end-time-toggle", "day-end-time", true);
+    setSiteElementVisibility("upcoming-events-toggle", "upcoming-events", true);
+    setSiteElementVisibility("site-message-toggle", "site-message", true);
+}
+
 window.setThemePreference = setThemePreference;
 window.toggleBackgroundVisibility = toggleBackgroundVisibility;
 window.setBackgroundVisibility = setBackgroundVisibility;
@@ -209,3 +239,4 @@ window.clearBackground = clearBackground;
 window.setUniversalColorMode = setUniversalColorMode;
 window.toggleSiteElementVisibility = toggleSiteElementVisibility;
 window.setSiteElementVisibility = setSiteElementVisibility;
+window.resetSettings = resetSettings;

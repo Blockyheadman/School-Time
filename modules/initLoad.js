@@ -6,7 +6,7 @@
 // import {setElementVisibilityWithScale} from "./animateItem.min.js";
 import {setBackgroundVisibility} from "./settingsActions.min.js";
 
-export {initLoad};
+export {initLoad, firstLoad};
 
 const ROOT_CSS = document.documentElement;
 const ROOT_STYLESHEET = window.getComputedStyle(ROOT_CSS);
@@ -105,6 +105,9 @@ function firstLoad() {
         localStorage.setItem("custom-background-color", ROOT_STYLESHEET.getPropertyValue("--bg-light-color"));
         localStorage.setItem("custom-foreground-color", ROOT_STYLESHEET.getPropertyValue("--fg-light-color"));
     }
+
+    document.getElementById("theme-custom-background").value = localStorage.getItem("custom-background-color");
+    document.getElementById("theme-custom-foreground").value = localStorage.getItem("custom-foreground-color");
 
     localStorage.setItem("theme-preference", "system");
     localStorage.setItem("background-enabled", false);
