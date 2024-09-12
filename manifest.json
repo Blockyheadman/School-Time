@@ -31,15 +31,6 @@
       "purpose": "maskable"
     }
   ],
-  "screenshots": [
-    {
-      "src": "res/images/test1.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "test image for reason purposes."
-    }
-  ],
   "start_url": "/",
   "display": "standalone",
   "background_color": "#232323",
