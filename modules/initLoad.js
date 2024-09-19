@@ -117,6 +117,7 @@ function firstLoad() {
     localStorage.setItem("display-day-end-time", true);
     localStorage.setItem("display-upcoming-events", true);
     localStorage.setItem("display-site-message", true);
+    localStorage.setItem("display-changelog-box", true);
 
     localStorage.setItem("initialized", "1");
 }

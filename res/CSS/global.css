@@ -83,15 +83,21 @@ button:active, .button:active {
 
 button:active:disabled, .button:active:disabled {
     color: var(--fg-color);
-    background-color: rgba(from var(--bg-color) r g b / 0.5);
+    background-color: rgb(from var(--bg-color) r g b / 0.5);
     border: 0.1rem solid;
     border-radius: 0.5rem;
     transform: none;
 }
 
-progress[value] {
+progress {
     -webkit-appearance: none;
     appearance: none;
+    border: none;
+
+    height: 0.5rem;
+    border-radius: 0.25rem;
+    /* Background color for progress bar */
+    background-color: rgb(from var(--fg-color) r g b / 0.5);
 }
 
 ::-webkit-progress-value, ::-webkit-progress-bar {
@@ -99,14 +105,14 @@ progress[value] {
     border-radius: 0.25rem;
 }
 
-::-webkit-progress-value {
-    background-color: var(--fg-color);
+::-webkit-progress-bar {
+    /* Background color for progress bar */
+    background-color: rgb(from var(--fg-color) r g b / 0.5);
 }
 
-progress {
-    height: 0.5rem;
-    border-radius: 0.25rem;
-    background-color: var(--bg-color);
+::-webkit-progress-value {
+    /* Foreground color for progress bar */
+    background-color: var(--fg-color);
 }
 
 ::-moz-progress-bar {
@@ -149,6 +155,12 @@ select:active {
     transform: scale(0.95, 0.95);
 }
 
+summary {
+    width: fit-content;
+    cursor: pointer;
+    user-select: none;
+}
+
 @media (prefers-color-scheme: dark) {
     :root {
         --bg-color: var(--bg-dark-color);
@@ -157,7 +169,7 @@ select:active {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    html, progress::-webkit-progress-value {
+    html, progress::-webkit-progress-value, progress::-webkit-progress-bar {
         transition: background-color 250ms, color 250ms;
     }
 

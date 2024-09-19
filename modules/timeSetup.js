@@ -92,10 +92,18 @@ function setupTimes(periods, customCheckout = NaN) {
         // Sets title of tab depending on if user is on the page or not.
         // Eventually, make this customizable for users or optional.
         if (document.hidden) {
-            let timeString = `${periods[i].short} - `;
-            timeString += (hoursLeft > 0 ? (hoursLeft < 10 ? '0' : '') + hoursLeft + ":" : "");
-            timeString += (minutesLeft > 0 ? (minutesLeft - hoursLeft * 60 < 10 ? '0' : '') + minutesLeft - hoursLeft * 60 + ":" : "");
-            timeString += (secondsLeft > 0 ? (secondsLeft < 10 ? '0' : '') + secondsLeft : "");
+            const REAL_MINUTES_LEFT = minutesLeft - hoursLeft * 60;
+            let timeString = `${periods[i].short}`;
+
+            // Add '-' if there's time to display
+            timeString += (hoursLeft <= 0 && REAL_MINUTES_LEFT <= 0 && secondsLeft <= 0) ? "" : " - ";
+
+            timeString += (hoursLeft > 0 ? (hoursLeft < 10 ? '0' : '') + hoursLeft + ':' : "");
+            timeString += (minutesLeft > 0 ? (REAL_MINUTES_LEFT < 10 ? '0' : '') + REAL_MINUTES_LEFT + ':' : "");
+            timeString += (secondsLeft > 0 ? (secondsLeft < 10 ? '0' : '') + secondsLeft : "00");
+
+            timeString += hoursLeft <= 0 && minutesLeft <= 0 ? 's' : '';
+
             document.title = timeString;
         } else {
             document.title = "Schooling Hours";

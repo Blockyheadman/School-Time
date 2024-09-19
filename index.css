@@ -39,6 +39,40 @@
     max-width: 11rem;
 }
 
+#changelog-box {
+    position: fixed;
+    left: 8px;
+    bottom: 8px;
+    width: calc(100% - 0.4rem - 24px);
+    height: calc(100% - 0.4rem - 24px);
+    max-width: 5rem;
+    max-height: 2.7rem;
+
+    backdrop-filter: blur(4px);
+    border: 0 solid;
+    border-radius: 0.5rem;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    text-align: center;
+
+    /*transition-property: max-width, max-height, border, border-radius, padding;*/
+    /*transition-duration: 500ms;*/
+    transition: max-width 450ms, max-height 500ms, border 500ms, border-radius 500ms, padding 500ms;
+}
+
+#changelog-box.opened {
+    max-width: 24rem;
+    max-height: 42rem;
+
+    border: 0.15rem solid;
+    padding: 0.25rem;
+    border-radius: 1.5rem;
+
+    /*transition-duration: 750ms;*/
+    /*transition-timing-function: cubic-bezier(.35, 1.42, .83, .92);*/
+}
+
 #top-right-content {
     display: flex;
     flex-direction: column;

@@ -31,7 +31,7 @@
     <div id="top-content">
         <div id="top-left-content">
             <label for="day-finished-progress" id="day-finished-progress-label">Day Progress: 0%</label>
-            <progress id="day-finished-progress" value="0" max="100">50%</progress>
+            <progress id="day-finished-progress" class="small-space-under" value="0" max="100">50%</progress>
         </div>
         <noscript><h2 style="text-align: center">
             Uh oh! 😞
@@ -126,6 +126,12 @@
                         Visible
                     </button>
                 </div>
+                <div class="small-space-under">
+                    Changelog/Version:
+                    <button id="changelog-box-toggle" onclick="toggleSiteElementVisibility(this.id, 'changelog-box')">
+                        Visible
+                    </button>
+                </div>
                 <button onclick="resetSettings()">Reset Settings</button>
                 <!-- <br><br>-->
                 <!-- <p>Nothing to see here :-*</p>-->
@@ -158,6 +164,20 @@
     </div>
 
     <div id="bottom-content">
+        <div id="changelog-box">
+            <button id="changelog-box-button" onclick="toggleChangelogBox()">Version ?</button>
+            <div id="changelog-box-text"
+                 style="display: grid; grid-template-rows: 0fr;">
+                <div style="overflow: hidden; opacity: 0; transform: scale(0.5);">
+                    <h1>Changelog</h1>
+                    <ul style="text-align: left">
+                        <li>The tab timer now displays the end of day time in correct formatting</li>
+                        <li>The progress bar now fully follows your theme and is consistent across browsers</li>
+                        <li>Added changelog and version button</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <div id="site-message">
             <p style="font-weight: bold; max-width: 50ch;">
                 This is the new Schooling hours built from the ground up to be more modern,

@@ -8,6 +8,8 @@ import {getPeriodTimes, setupTimes} from "./modules/timeSetup.min.js";
 import {getEvents, setupEvents} from "./modules/eventSetup.min.js";
 import {CLOCK_TIME_REGEX, clockTimeToTimestamp} from "./modules/timeConversion.min.js";
 
+const CURRENT_VERSION = "1.1.0b";
+
 if (navigator.serviceWorker) {
     window.addEventListener("load", async function () {
         try {
@@ -28,6 +30,7 @@ if (navigator.serviceWorker) {
 
 
 // Setup main website
+document.getElementById('changelog-box-button').innerText = "Version " + CURRENT_VERSION;
 initLoad();
 
 // The list of periods and events from a given school
@@ -139,6 +142,25 @@ async function setEventCount() {
     await updateTimes();
 }
 
+/**
+ * Toggles the visibility of the changelog box.
+ */
+function toggleChangelogBox() {
+    const CHANGELOG_BOX = document.getElementById('changelog-box');
+    const CHANGELOG_BOX_BUTTON = document.getElementById('changelog-box-button');
+    const CHANGELOG_BOX_TEXT = document.getElementById('changelog-box-text');
+    if (CHANGELOG_BOX.classList.contains('opened')) {
+        CHANGELOG_BOX.classList.remove('opened');
+        CHANGELOG_BOX_BUTTON.innerText = "Version " + CURRENT_VERSION;
+        setElementVisibilityWithScale(CHANGELOG_BOX_TEXT, false, 450);
+    } else {
+        CHANGELOG_BOX.classList.add('opened');
+        CHANGELOG_BOX_BUTTON.innerText = "Close";
+        setElementVisibilityWithScale(CHANGELOG_BOX_TEXT, true, 450);
+    }
+}
+
 window.setCheckoutTime = setCheckoutTime;
 window.resetCheckoutTime = resetCheckoutTime;
 window.setEventCount = setEventCount;
+window.toggleChangelogBox = toggleChangelogBox;
