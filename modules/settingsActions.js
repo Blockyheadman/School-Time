@@ -97,10 +97,10 @@ function setBackground() {
 
     const FILE_READER = new FileReader();
     FILE_READER.addEventListener("load", () => {
-        if (FILE.size >= 2621440) { // if file size is bigger than 1.5Mib (Mebibytes)
+        if (FILE.size >= 2621440) { // if file size is bigger than 2.5Mib (Mebibytes)
             alert("This file exceeds the storage quota. Please try a different image.");
             return;
-        } else if (FILE.size > 1572864) { // if file size is bigger than 2.5Mib (Mebibytes)
+        } else if (FILE.size > 1572864) { // if file size is bigger than 1.5Mib (Mebibytes)
             alert("This file is getting big.. Consider compressing the image or using a smaller sized picture.");
         }
         document.getElementById("toggle-background-button").removeAttribute("disabled");
