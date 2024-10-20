@@ -8,8 +8,6 @@ import {getPeriodTimes, setupTimes} from "./modules/timeSetup.min.js";
 import {getEvents, setupEvents} from "./modules/eventSetup.min.js";
 import {CLOCK_TIME_REGEX, clockTimeToTimestamp} from "./modules/timeConversion.min.js";
 
-const CURRENT_VERSION = "1.1.0b";
-
 if (navigator.serviceWorker) {
     window.addEventListener("load", async function () {
         try {
@@ -28,10 +26,13 @@ if (navigator.serviceWorker) {
     });
 }
 
-
 // Setup main website
-document.getElementById('changelog-box-button').innerText = "Version " + CURRENT_VERSION;
 initLoad();
+
+// Get version and changelog
+const CURRENT_VERSION = await getVersion();
+const CURRENT_VERSION_STRING = await getVersionString();
+await setupChangelog();
 
 // The list of periods and events from a given school
 let periods = await getPeriodTimes("Cabot-High");
@@ -71,34 +72,127 @@ async function updateTimes() {
     const currentTime = new Date();
     currentTime.setMilliseconds(0);
 
-    // if (Notification.permission === "granted" && !document.hasFocus()) {
-    //     if (currentTime.getTime() === periods[getCurrentPeriodIndex()].time && currentTime.getTime() >= periods[1].time
-    //         && getCurrentPeriodIndex() < periods.length - 1) {
-    //         let currentPeriodText = "It's ";
-    //         if (getCurrentPeriodIndex() < periods.length - 2) {
-    //             currentPeriodText += `now ${periods[getCurrentPeriodIndex()].name}`;
-    //         } else {
-    //             currentPeriodText += "the end of the school day! 🥳";
-    //         }
-    //
-    //         navigator.serviceWorker.ready.then((registration) => {
-    //             registration.showNotification(
-    //                 "Schooling Hours",
-    //                 {
-    //                     body: currentPeriodText,
-    //                     icon: "res/icons/hd_512.png",
-    //                     tag: `pindex${getCurrentPeriodIndex()}`
-    //                 }
-    //             )
-    //         })
-    //     }
-    // }
+    /*
+    if (Notification.permission === "granted" && !document.hasFocus()) {
+        if (currentTime.getTime() === periods[getCurrentPeriodIndex()].time && currentTime.getTime() >= periods[1].time
+            && getCurrentPeriodIndex() < periods.length - 1) {
+            let currentPeriodText = "It's ";
+            if (getCurrentPeriodIndex() < periods.length - 2) {
+                currentPeriodText += `now ${periods[getCurrentPeriodIndex()].name}`;
+            } else {
+                currentPeriodText += "the end of the school day! 🥳";
+            }
+
+            navigator.serviceWorker.ready.then((registration) => {
+                registration.showNotification(
+                    "Schooling Hours",
+                    {
+                        body: currentPeriodText,
+                        icon: "res/icons/hd_512.png",
+                        tag: `pindex${getCurrentPeriodIndex()}`
+                    }
+                )
+            })
+        }
+    }
+    */
 }
 
 await updateTimes();
 
 // Main loop for updating times
 setInterval(updateTimes, 500, periods);
+
+async function setupChangelog() {
+    document.getElementById('changelog-box-button').innerText = "Version " + CURRENT_VERSION_STRING;
+
+    const CHANGELOG_LIST = document.getElementById("changelog-list");
+    let changelogDetails = await fetch("res/version.json")
+        .then(response => response.json())
+        .then(json => json.changelog);
+
+    for (let i = 0; i < changelogDetails.length; i++) {
+        CHANGELOG_LIST.innerHTML += `<li>${changelogDetails[i]}</li>`;
+    }
+}
+
+/**
+ * Gets the version json
+ * @returns {Promise<{major: number, minor: number, patch: number, typeShort: string}>}
+ */
+async function getVersion() {
+    return await fetch("res/version.json")
+        .then(response => response.json())
+        .then(json => json.version);
+}
+
+/**
+ * Gets the version as a string
+ * @returns {Promise<string>}
+ */
+async function getVersionString() {
+    return await getVersion()
+        .then(data => {
+            return `${data.major}.${data.minor}.${data.patch}${data.typeShort}`;
+        });
+}
+
+/**
+ * Decides when to show the 'update available' button.
+ * @returns {Promise<void>}
+ */
+async function checkForUpdate() {
+    let versionResponse = await getVersion();
+
+    const VersionTypeRatings = Object.freeze({
+        ALPHA: 1,
+        BETA: 2,
+        RELEASE_CANDIDATE: 3,
+        RELEASE: 4
+    });
+
+    const CURRENT_VERSION_TYPE_RATING = (() => {
+        switch (CURRENT_VERSION.typeShort.toLowerCase()) {
+            case 'a':
+                return VersionTypeRatings.ALPHA;
+            case 'b':
+                return VersionTypeRatings.BETA;
+            case 'rc':
+                return VersionTypeRatings.RELEASE_CANDIDATE
+            default:
+                return VersionTypeRatings.RELEASE;
+        }
+    })();
+
+    const VERSION_RESPONSE_TYPE_RATING = (() => {
+        switch (versionResponse.typeShort.toLowerCase()) {
+            case 'a':
+                return VersionTypeRatings.ALPHA;
+            case 'b':
+                return VersionTypeRatings.BETA;
+            case 'rc':
+                return VersionTypeRatings.RELEASE_CANDIDATE
+            default:
+                return VersionTypeRatings.RELEASE;
+        }
+    })();
+
+    if (
+        versionResponse.major > CURRENT_VERSION.major ||
+        versionResponse.minor > CURRENT_VERSION.minor ||
+        versionResponse.patch > CURRENT_VERSION.patch ||
+        (CURRENT_VERSION_TYPE_RATING === VersionTypeRatings.RELEASE
+            && VERSION_RESPONSE_TYPE_RATING < CURRENT_VERSION_TYPE_RATING) ||
+        VERSION_RESPONSE_TYPE_RATING > CURRENT_VERSION_TYPE_RATING
+    ) {
+        setElementVisibility(document.getElementById("update-button"), true);
+    } else {
+        setElementVisibility(document.getElementById("update-button"), false);
+    }
+}
+
+// Loop for checking updates
+setInterval(checkForUpdate, 15000);
 
 /**
  * Sets the custom checkout time.
@@ -121,25 +215,27 @@ function resetCheckoutTime() {
     customCheckout = NaN;
 }
 
+/**
+ * Sets and constrains the visible event count
+ * @returns {Promise<void>}
+ */
 async function setEventCount() {
     const EVENT_COUNT_INPUT = document.getElementById("event-display-count");
     let newEventCount = Number.parseInt(EVENT_COUNT_INPUT.value);
+    if (!isNaN(newEventCount)) {
+        if (newEventCount < EVENT_COUNT_INPUT.min) {
+            EVENT_COUNT_INPUT.value = EVENT_COUNT_INPUT.min;
+            newEventCount = parseInt(EVENT_COUNT_INPUT.min);
+        } else if (newEventCount > EVENT_COUNT_INPUT.max) {
+            EVENT_COUNT_INPUT.value = EVENT_COUNT_INPUT.max;
+            newEventCount = parseInt(EVENT_COUNT_INPUT.max);
+        }
 
-    if (newEventCount < EVENT_COUNT_INPUT.min) {
-        EVENT_COUNT_INPUT.value = EVENT_COUNT_INPUT.min;
-        newEventCount = parseInt(EVENT_COUNT_INPUT.min);
-    } else if (newEventCount > EVENT_COUNT_INPUT.max) {
-        EVENT_COUNT_INPUT.value = EVENT_COUNT_INPUT.max;
-        newEventCount = parseInt(EVENT_COUNT_INPUT.max);
-    } else if (isNaN(newEventCount)) {
-        EVENT_COUNT_INPUT.value = Math.floor(parseInt(EVENT_COUNT_INPUT.max) - parseInt(EVENT_COUNT_INPUT.min));
-        newEventCount = Math.floor(parseInt(EVENT_COUNT_INPUT.max) - parseInt(EVENT_COUNT_INPUT.min));
+        localStorage.setItem("event-display-count", newEventCount);
+        eventCount = newEventCount;
+
+        await updateTimes();
     }
-
-    localStorage.setItem("event-display-count", newEventCount);
-    eventCount = newEventCount;
-
-    await updateTimes();
 }
 
 /**
@@ -151,7 +247,7 @@ function toggleChangelogBox() {
     const CHANGELOG_BOX_TEXT = document.getElementById('changelog-box-text');
     if (CHANGELOG_BOX.classList.contains('opened')) {
         CHANGELOG_BOX.classList.remove('opened');
-        CHANGELOG_BOX_BUTTON.innerText = "Version " + CURRENT_VERSION;
+        CHANGELOG_BOX_BUTTON.innerText = "Version " + CURRENT_VERSION_STRING;
         setElementVisibilityWithScale(CHANGELOG_BOX_TEXT, false, 450);
     } else {
         CHANGELOG_BOX.classList.add('opened');

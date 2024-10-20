@@ -79,6 +79,16 @@ function initLoad() {
     // Setup event display count
     document.getElementById("event-display-count").value = localStorage.getItem("event-display-count");
 
+    // Set the display text for tab timer mode button
+    const TAB_TIMER_MODE_TOGGLE = document.getElementById("tab-timer-mode-toggle");
+    switch (localStorage.getItem("tab-timer-mode")) {
+        case "end-of-day":
+            TAB_TIMER_MODE_TOGGLE.innerText = "End of day";
+            break;
+        case "next-period":
+        default:
+    }
+
     // Setup element visibility
     for (let i = 0; i < localStorage.length; i++) {
         if (localStorage.key(i).startsWith("display-")) {
@@ -118,6 +128,7 @@ function firstLoad() {
     localStorage.setItem("display-upcoming-events", true);
     localStorage.setItem("display-site-message", true);
     localStorage.setItem("display-changelog-box", true);
+    localStorage.setItem("tab-timer-mode", "next-period");
 
     localStorage.setItem("initialized", "1");
 }

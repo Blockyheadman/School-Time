@@ -175,6 +175,25 @@ function setUniversalColorMode() {
 }
 
 /**
+ * Sets the tab timer mode.
+ */
+function setTabTimerMode() {
+    const CURRENT_MODE = localStorage.getItem("tab-timer-mode");
+    const TAB_TIMER_TOGGLE = document.getElementById("tab-timer-mode-toggle");
+
+    switch (CURRENT_MODE) {
+        case "end-of-day":
+            localStorage.setItem("tab-timer-mode", "next-period");
+            TAB_TIMER_TOGGLE.innerText = "Next Period";
+            break;
+        case "next-period":
+        default:
+            localStorage.setItem("tab-timer-mode", "end-of-day");
+            TAB_TIMER_TOGGLE.innerText = "End of day";
+    }
+}
+
+/**
  * Toggles a site element's visibility on or off.
  *
  * @param buttonId {string} - The button that called this action.
@@ -237,6 +256,7 @@ window.toggleBackgroundVisibility = toggleBackgroundVisibility;
 window.setBackgroundVisibility = setBackgroundVisibility;
 window.clearBackground = clearBackground;
 window.setUniversalColorMode = setUniversalColorMode;
+window.setTabTimerMode = setTabTimerMode;
 window.toggleSiteElementVisibility = toggleSiteElementVisibility;
 window.setSiteElementVisibility = setSiteElementVisibility;
 window.resetSettings = resetSettings;

@@ -92,6 +92,16 @@ function setupTimes(periods, customCheckout = NaN) {
         // Sets title of tab depending on if user is on the page or not.
         // Eventually, make this customizable for users or optional.
         if (document.hidden) {
+            switch (localStorage.getItem("tab-timer-mode")) {
+                case "end-of-day":
+                    break;
+                case "next-period":
+                default:
+                    hoursLeft = Math.floor((NEXT_PERIOD.time - CURRENT_TIME) / 1000 / 60 / 60);
+                    minutesLeft = Math.floor((NEXT_PERIOD.time - CURRENT_TIME) / 1000 / 60);
+                    secondsLeft = Math.abs((minutesLeft * 60) - Math.floor((NEXT_PERIOD.time - CURRENT_TIME) / 1000));
+            }
+
             const REAL_MINUTES_LEFT = minutesLeft - hoursLeft * 60;
             let timeString = `${periods[i].short}`;
 

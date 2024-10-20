@@ -1,0 +1,15 @@
+{
+  "changelog": [
+    "The tab timer now displays the end of day time in correct formatting",
+    "The progress bar now fully follows your theme and is consistent across browsers",
+    "Added changelog and version button",
+    "Added option to change tab timer type",
+    "Added update button (much needed too :)"
+  ],
+  "version": {
+    "major": 1,
+    "minor": 1,
+    "patch": 1,
+    "typeShort": "b"
+  }
+}

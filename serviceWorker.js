@@ -12,6 +12,7 @@ const OFFLINE_FILES = [
     "/modules/animateItem.min.js",
     "/modules/eventSetup.min.js",
     "/modules/initLoad.min.js",
+    "/modules/settingsActions.min.js",
     "/modules/timeConversion.min.js",
     "/modules/timeSetup.min.js",
     "/res/CSS/global.min.css",

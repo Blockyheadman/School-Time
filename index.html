@@ -32,6 +32,8 @@
         <div id="top-left-content">
             <label for="day-finished-progress" id="day-finished-progress-label">Day Progress: 0%</label>
             <progress id="day-finished-progress" class="small-space-under" value="0" max="100">50%</progress>
+            <button id="update-button" style="display: none; opacity: 0" onclick="location.reload()">Update available!
+            </button>
         </div>
         <noscript><h2 style="text-align: center">
             Uh oh! 😞
@@ -107,6 +109,13 @@
                     <input id="event-display-count" oninput="setEventCount()" type="number" min="3" max="9"
                            inputmode="numeric">
                 </label>
+                <br><br>
+                <div>
+                    Tab Timer Mode:
+                    <button id="tab-timer-mode-toggle" onclick="setTabTimerMode()">
+                        Next Period
+                    </button>
+                </div>
                 <h3>Hide Elements</h3>
                 <div class="small-space-under">
                     End of Day Timer:
@@ -170,11 +179,7 @@
                  style="display: grid; grid-template-rows: 0fr;">
                 <div style="overflow: hidden; opacity: 0; transform: scale(0.5);">
                     <h1>Changelog</h1>
-                    <ul style="text-align: left">
-                        <li>The tab timer now displays the end of day time in correct formatting</li>
-                        <li>The progress bar now fully follows your theme and is consistent across browsers</li>
-                        <li>Added changelog and version button</li>
-                    </ul>
+                    <ul id="changelog-list" style="text-align: left; padding-right: 40px"></ul>
                 </div>
             </div>
         </div>
