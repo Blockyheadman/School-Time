@@ -22,7 +22,7 @@
     <link rel="manifest" href="manifest.json"/>
     <link rel="icon" href="res/icons/hd_512.png">
 
-    <title>School Time</title>
+    <title>Schooling Hours</title>
 </head>
 <body>
 
@@ -140,6 +140,13 @@
                     <button id="changelog-box-toggle" onclick="toggleSiteElementVisibility(this.id, 'changelog-box')">
                         Visible
                     </button>
+                </div>
+                <h3>Data Management</h3>
+                <div class="small-space-under"><label class="button">
+                    Import Settings
+                    <input type="file" id="settings-import" accept=".json" hidden/>
+                </label>
+                    <button onclick="exportSettings()">Export Settings</button>
                 </div>
                 <button onclick="resetSettings()">Reset Settings</button>
                 <!-- <br><br>-->

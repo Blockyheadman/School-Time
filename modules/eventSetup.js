@@ -46,7 +46,14 @@ function setupEvents(eventSet, eventSetType, eventCount) {
 
     let eventShift = 0;
     for (let i = 0; i < eventCount + eventShift; i++) {
+        if (i + 1 > eventCount + eventShift)
+            break;
+
         const EVENT_DATA = eventSet[i];
+        if (i >= eventSet.length) {
+            eventTable.innerHTML += "<tr><td><wbr></td><td><wbr></td></tr>";
+            continue;
+        }
         const DAYS_LEFT = Math.floor((EVENT_DATA.date - CURRENT_DATE.getTime()) / 86500000);
 
         if (DAYS_LEFT >= 0) {

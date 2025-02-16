@@ -58,13 +58,14 @@
 
     /*transition-property: max-width, max-height, border, border-radius, padding;*/
     /*transition-duration: 500ms;*/
-    transition: max-width 450ms, max-height 500ms, border 500ms, border-radius 500ms, padding 500ms;
+    transition: background-color 500ms, max-width 450ms, max-height 500ms, border 500ms, border-radius 500ms, padding 500ms;
 }
 
 #changelog-box.opened {
     max-width: 24rem;
     max-height: 42rem;
 
+    background-color: rgba(0, 0, 0, 0.1);
     border: 0.15rem solid;
     padding: 0.25rem;
     border-radius: 1.5rem;

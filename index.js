@@ -217,11 +217,19 @@ function resetCheckoutTime() {
 
 /**
  * Sets and constrains the visible event count
+ *
+ * @param count {number} - An optional amount for event count to be set to.
  * @returns {Promise<void>}
  */
-async function setEventCount() {
+async function setEventCount(count = -1) {
     const EVENT_COUNT_INPUT = document.getElementById("event-display-count");
-    let newEventCount = Number.parseInt(EVENT_COUNT_INPUT.value);
+    let newEventCount;
+    if (count === -1) {
+        newEventCount = Number.parseInt(EVENT_COUNT_INPUT.value);
+    } else {
+        newEventCount = count;
+    }
+
     if (!isNaN(newEventCount)) {
         if (newEventCount < EVENT_COUNT_INPUT.min) {
             EVENT_COUNT_INPUT.value = EVENT_COUNT_INPUT.min;

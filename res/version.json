@@ -4,12 +4,15 @@
     "The progress bar now fully follows your theme and is consistent across browsers",
     "Added changelog and version button",
     "Added option to change tab timer type",
-    "Added update button (much needed too :)"
+    "Added update button (much needed too :)",
+    "Added Import/Export settings options",
+    "Fixed Changelog background CSS",
+    "Fixed events list from breaking when no event is ahead"
   ],
   "version": {
     "major": 1,
-    "minor": 1,
-    "patch": 1,
+    "minor": 2,
+    "patch": 0,
     "typeShort": "b"
   }
 }
